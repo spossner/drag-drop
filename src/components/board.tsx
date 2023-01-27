@@ -35,11 +35,18 @@ const Board = () => {
   }
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className="grid grid-cols-8 gap-0 max-w-lg mx-auto border-2 border-slate-600">
-        {squares}
-      </div>
-      <div>
-        <button onClick={toggleType}>Toggle</button>
+      <div className="flex flex-col items-center gap-3">
+        <div className="flex justify-end w-3/4 max-w-xl">
+          <button
+            onClick={toggleType}
+            className="bg-slate-600 hover:bg-slate-500 rounded shadow text-white px-4 py-2 text-xl"
+          >
+            Toggle
+          </button>
+        </div>
+        <div className="grid grid-cols-8 gap-0 w-3/4 max-w-xl mx-auto border-2 border-slate-600">
+          {squares}
+        </div>
       </div>
     </DndProvider>
   );

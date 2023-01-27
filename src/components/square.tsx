@@ -1,23 +1,23 @@
-import { stat } from "fs";
 import { ReactNode } from "react";
 import { useDrop } from "react-dnd";
 import { usePieceStore } from "../stores/piece-store";
-import { ChessPiece, idx2pos, isValidMove } from "../utils/chess";
+import { idx2pos, isValidMove } from "../utils/chess";
 
 interface SquareProps {
   idx: number;
   children?: ReactNode;
 }
-const Square = ({ children, idx }: SquareProps) => {
-  const state = usePieceStore();
+
+const Square: React.FC<SquareProps> = ({ children, idx }) => {
+  const state = usePieceStore(); // use complete store
   const [{ isOver, canDrop }, dropRef] = useDrop(
     () => ({
       accept: "piece",
       canDrop: () => isValidMove(state.type, state.position, idx2pos(idx)),
       drop: () => state.setPosition(idx2pos(idx)),
       collect: (monitor) => ({
-        isOver: !!monitor.isOver(),
-        canDrop: !!monitor.canDrop(),
+        isOver: monitor.isOver(),
+        canDrop: monitor.canDrop(),
       }),
     }),
     [idx, state]

@@ -6,10 +6,10 @@ interface PieceProps {
   isBlack?: boolean;
 }
 const Piece = ({ type, isBlack }: PieceProps) => {
-  const [{ isDragging }, dragRef, preview] = useDrag(() => ({
+  const [{ isDragging }, dragRef] = useDrag(() => ({
     type: "piece",
     collect: (monitor) => ({
-      isDragging: !!monitor.isDragging(),
+      isDragging: monitor.isDragging(),
     }),
   }));
 

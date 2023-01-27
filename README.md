@@ -1,46 +1,25 @@
-# Getting Started with Create React App
+# Playing around with react-dnd
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+https://react-dnd.github.io/react-dnd/about
 
-## Available Scripts
+More or less following the tutorial (https://react-dnd.github.io/react-dnd/docs/tutorial) with some tweaks matching own gusto.
 
-In the project directory, you can run:
+- pure chess engine in utils/chess.ts
+- also with some jest tests
+- position of single piece is stored in a zustand store (https://github.com/pmndrs/zustand)
+- piece can be moved by clicking on a valid target field (valid = chess rules for that piece)
+- ..or by drag'n drop
+- the piece can be exchanged randomly by another type (toggle button) following the new chess rules for that new piece
 
-### `yarn start`
+# drag n drop
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- board.tsx surrounds child element with DndProvider
+- square.tsx contains the logic for dropping via useDrop
+  -- accepts type "piece"
+  -- calculates canDrop (by checking if this square would be a valid move from outgoing position from zustand store)
+  -- does the move when drop (canDrop was ensured upfront by react-dnd)
+  -- and collects isOver and canDrop local state from react-dnd which in turn is used later to set the suitable color of the squares when dragging
+- piece.tsx is the counterpart for dragging via useDrag
+  -- sets the type "piece"
+  -- monitors the isDragging into local state to dim the piece on current position to 50% while dragging away
+  -- use the useDrop's dragRef to connect the piece (just a div with unicode character) with the react-dnd engine
